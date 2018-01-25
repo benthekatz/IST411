@@ -61,4 +61,9 @@ public class AddressModel {
     public void setValues(ArrayList<String> input){
         this.values = input; 
     }
+    
+    public String getValues(){
+        return values.toString();
+    }
+    
 }

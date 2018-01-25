@@ -25,6 +25,6 @@ public class ListView extends ServerView {
     }
 
     public String makeHTML(ArrayList<String> values) {
-        return values.toString();
+        return this.values.toString();
     }
 }
