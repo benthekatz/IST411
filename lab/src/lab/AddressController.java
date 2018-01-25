@@ -15,23 +15,18 @@ import java.util.Map;
  */
 public class AddressController {
 
+    Map<String, String> params = new HashMap<>();
+
     public void pullValues(String url) {
         if (url.indexOf("?") >= 0) {
             String p = url.substring(url.indexOf("?") + 1);
-            Map<String, String> params = new HashMap<>();
             for (String pair : p.split("&")) {
                 String[] keyVal = pair.split("=");
                 if (keyVal.length == 2) {
                     params.put(keyVal[0], keyVal[1]);
                 }
-                String values = Arrays.toString(keyVal);
-                System.out.print("\n" + values);
-                writeToModel(pair);
+                new AddressModel().readMap(params);
             }
         }
-    }
-
-    public void writeToModel(String params) {
-
     }
 }

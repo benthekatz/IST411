@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,6 +35,12 @@ public class ServerController {
                     String line = reader.readLine();
                     System.out.println(line);
 
+                    AddressController ac = new AddressController();
+                    AddressModel am = new AddressModel();
+                    ListView lv = new ListView();
+                    
+                    ArrayList<String> values;
+
                     if (line.contains("GET")) {
                         if (line.contains("/hello HTTP/1.1")) {
                             //creates a new HelloView
@@ -45,11 +53,14 @@ public class ServerController {
                             if (AddressModel.verify(line)) {
                                 clientSocket.getOutputStream().write(new SubmitView().makeHTML().getBytes("UTF-8"));
                                 //pulls values from URL via controller
-                                new AddressController().pullValues(line);
-                            } else if (!AddressModel.verify(line)){
+                                ac.pullValues(line);
+                            } else if (!AddressModel.verify(line)) {
                                 //invalid fields
                                 clientSocket.getOutputStream().write(new AddressView().makeHTMLInvalid().getBytes("UTF-8"));
                             }
+                        } else if (line.contains("/list")) {
+                            //creates a new ListView
+                            clientSocket.getOutputStream().write(lv.makeHTML(am.values).getBytes("UTF-8"));
                         } else if (line.contains("HTTP/1.1")) {
                             String home = "Default home page";
                             clientSocket.getOutputStream().write(home.getBytes("UTF-8"));

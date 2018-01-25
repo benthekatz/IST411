@@ -5,6 +5,7 @@
  */
 package lab;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,7 +15,13 @@ import java.util.Map;
  * @author Ben
  */
 public class AddressModel {
-
+    public String name;
+    public String street;
+    public String state;
+    public String zip;
+    
+    public ArrayList<String> values = new ArrayList<String>();
+    
     static boolean verify(String url) {
         boolean status = true;
 
@@ -23,18 +30,35 @@ public class AddressModel {
             for (String pair : p.split("&")) {
                 String[] keyVal = pair.split("=");
                 if (keyVal.length == 2) {
-                    if(keyVal.equals("zip")){
-                        if(keyVal[1].length() == 5){
-                            status = true;
-                        } else { 
-                            status = false;
-                        }
+                    if(keyVal[0].equals("zip")){
+//                        if(!keyVal[1].toString().matches("[0-9]{5}")){
+//                            System.out.print("check" + keyVal[1].toString());
+//                            status = false;
+//                        }
                     }
                 } else if (keyVal.length == 1){
-                status = false;
+                    status = false;
                 }
             }
         }
         return status;
+    }
+
+    public void readMap(Map<String, String> params) {
+        name = params.get("name");
+        street = params.get("street");
+        state = params.get("state");
+        zip = params.get("zip");
+        
+        values.add("Name: " + name);
+        values.add("Street: " + street);
+        values.add("State: " + state);
+        values.add("Zip: " + zip);
+        
+        setValues(values);
+    }
+    
+    public void setValues(ArrayList<String> input){
+        this.values = input; 
     }
 }
