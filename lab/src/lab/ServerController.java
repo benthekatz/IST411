@@ -25,6 +25,8 @@ public class ServerController {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        AddressController ac = new AddressController();
+        
         try (ServerSocket server = new ServerSocket(1234)) {
             System.out.println("Listening for connection on port 1234.");
             while (true) {
@@ -34,10 +36,6 @@ public class ServerController {
                     BufferedReader reader = new BufferedReader(isr);
                     String line = reader.readLine();
                     System.out.println(line);
-
-                    AddressController ac = new AddressController();
-                    AddressModel am = new AddressModel();
-                    ListView lv = new ListView();
 
                     if (line.contains("GET")) {
                         
@@ -51,18 +49,18 @@ public class ServerController {
                             
                         } else if (line.contains("/submit")) {
                             //creates a new SubmitView
-                            if (AddressModel.verify(line)) {
+                            if (AddressModel.isValid(line)) {
                                 clientSocket.getOutputStream().write(new SubmitView().makeHTML().getBytes("UTF-8"));
                                 //pulls values from URL via controller
                                 ac.pullValues(line);
-                            } else if (!AddressModel.verify(line)) {
+                            } else if (!AddressModel.isValid(line)) {
                                 //invalid fields
                                 clientSocket.getOutputStream().write(new AddressView().makeHTMLInvalid().getBytes("UTF-8"));
                             }
                             
                         } else if (line.contains("/list")) {
                             //creates a new ListView
-                            clientSocket.getOutputStream().write(lv.makeHTML().getBytes("UTF-8"));
+                            clientSocket.getOutputStream().write(new ListView().makeHTML(ac.am.returnModels()).getBytes("UTF-8"));
                             
                         } else if (line.contains("HTTP/1.1")) {
                             String home = "Default home page";

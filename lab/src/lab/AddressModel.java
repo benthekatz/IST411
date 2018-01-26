@@ -20,9 +20,9 @@ public class AddressModel {
     public String state;
     public String zip;
     
-    public ArrayList<String> values = new ArrayList<String>();
+    public AddressListModel alm = new AddressListModel();
     
-    static boolean verify(String url) {
+    static boolean isValid(String url) {
         boolean status = true;
 
         if (url.indexOf("?") >= 0) {
@@ -31,10 +31,10 @@ public class AddressModel {
                 String[] keyVal = pair.split("=");
                 if (keyVal.length == 2) {
                     if(keyVal[0].equals("zip")){
-//                        if(!keyVal[1].toString().matches("[0-9]{5}")){
-//                            System.out.print("check" + keyVal[1].toString());
-//                            status = false;
-//                        }
+                        keyVal[1] = keyVal[1].replace(" HTTP/1.1","");
+                        if(!keyVal[1].toString().matches("[0-9]{5}")){
+                            status = false;
+                        }
                     }
                 } else if (keyVal.length == 1){
                     status = false;
@@ -44,26 +44,22 @@ public class AddressModel {
         return status;
     }
 
-    public void readMap(Map<String, String> params) {
-        name = params.get("name");
-        street = params.get("street");
-        state = params.get("state");
-        zip = params.get("zip");
+    public void createModel(Map<String, String> params) {
+        AddressModel am = new AddressModel();
         
-        values.add("Name: " + name);
-        values.add("Street: " + street);
-        values.add("State: " + state);
-        values.add("Zip: " + zip);
+        am.name = params.get("name");
+        am.street = params.get("street");
+        am.state = params.get("state");
+        am.zip = params.get("zip");
         
-        setValues(values);
+        alm.storeModel(am);
+        
+        System.out.println(am);
     }
     
-    public void setValues(ArrayList<String> input){
-        this.values = input; 
-    }
     
-    public String getValues(){
-        return values.toString();
+    public ArrayList<AddressModel> returnModels(){
+        return alm.returnModels();
     }
     
 }

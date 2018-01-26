@@ -16,6 +16,8 @@ import java.util.Map;
 public class AddressController {
 
     Map<String, String> params = new HashMap<>();
+    
+    AddressModel am = new AddressModel();
 
     public void pullValues(String url) {
         if (url.indexOf("?") >= 0) {
@@ -23,10 +25,15 @@ public class AddressController {
             for (String pair : p.split("&")) {
                 String[] keyVal = pair.split("=");
                 if (keyVal.length == 2) {
+                    if(keyVal[0].contains("zip")){
+                        System.out.println(keyVal[0]);
+                        keyVal[1] = keyVal[1].replace(" HTTP/1.1","");
+                    }
                     params.put(keyVal[0], keyVal[1]);
                 }
-                new AddressModel().readMap(params);
             }
+            System.out.print(params.toString());
+            am.createModel(params);
         }
     }
 }

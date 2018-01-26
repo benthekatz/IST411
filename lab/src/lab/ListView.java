@@ -13,18 +13,14 @@ import java.util.Map;
  * @author Ben
  */
 public class ListView extends ServerView {
-    ArrayList<String>  values = new ArrayList<>();
+    ArrayList<AddressModel>  values = new ArrayList<>();
     
     @Override
     String makeHTML() {
         return values.toString();
     }
-    
-    public void setValues(ArrayList<String> input){
-        values = input;
-    }
 
-    public String makeHTML(ArrayList<String> values) {
-        return this.values.toString();
+    public String makeHTML(ArrayList<AddressModel> values) {
+        return values.toString();
     }
 }
