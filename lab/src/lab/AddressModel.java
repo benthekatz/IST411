@@ -5,6 +5,7 @@
  */
 package lab;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -20,8 +21,6 @@ public class AddressModel {
     public String street;
     public String state;
     public String zip;
-
-    public AddressListModel alm = new AddressListModel();
 
     static boolean isValid(String url) {
         boolean status = true;
@@ -45,26 +44,13 @@ public class AddressModel {
         return status;
     }
 
-    public void createModel(String name, String street, String state, String zip) {
+    public void createModel(String name, String street, String state, String zip, AddressListModel alm) throws IOException {
         this.name = name;
         this.street = street;
         this.state = state;
         this.zip = zip;
-
-        alm.storeModel(this);
-    }
-
-    public ArrayList<AddressModel> returnModels() {
-        return alm.returnModels();
-    }
-
-    public String returnList() {
-        ArrayList<AddressModel> values = alm.returnModels();
-        String list = "";
-        for (int i = 0; i < values.size(); i++) {
-            list = list + values.get(i).toString();
-        }
-        return list;
+        
+        alm.addModel(this);
     }
 
     public String toString() {
@@ -74,7 +60,7 @@ public class AddressModel {
                 + "Zip: " + zip + "<br>" + "<br>";
     }
 
-    String serializeToString() {
+    public String serializeToString() {
         return "name=" + name + "&"
                 + "street=" + street + "&"
                 + "state=" + state + "&"

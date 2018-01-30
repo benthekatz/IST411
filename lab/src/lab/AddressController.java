@@ -5,6 +5,7 @@
  */
 package lab;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -17,9 +18,7 @@ public class AddressController {
 
     Map<String, String> params = new HashMap<>();
 
-    AddressModel am = new AddressModel();
-
-    public void pullValues(String url) {
+    public void pullValues(String url, AddressListModel alm) throws IOException {
 
         String name = null;
         String street = null;
@@ -49,6 +48,8 @@ public class AddressController {
             }
         }
 
-        am.createModel(name, street, state, zip);
+        AddressModel am = new AddressModel();
+        am.createModel(name, street, state, zip, alm);
+        
     }
 }
