@@ -33,7 +33,7 @@ public class AddressView extends ServerView {
                 + "Zip: <input type='text' name='zip'><br>"
                 + "<input type='submit' value='Submit'><br>"
                 + "</form>"
-                + "Invalid Field(s)"
+                + "<p style='color:red'>Invalid Field(s)</p>"
                 + "</body></html>";
     }
 }

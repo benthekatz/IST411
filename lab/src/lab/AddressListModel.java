@@ -21,4 +21,13 @@ public class AddressListModel {
     public ArrayList<AddressModel> returnModels(){
         return models;
     }
+    
+    void saveToFile(String filename){
+        
+    }
+    
+    static AddressListModel makeAddressListFromFile(String filename){
+        
+        return null;
+    }
 }

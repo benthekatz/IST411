@@ -16,24 +16,39 @@ import java.util.Map;
 public class AddressController {
 
     Map<String, String> params = new HashMap<>();
-    
+
     AddressModel am = new AddressModel();
 
     public void pullValues(String url) {
+
+        String name = null;
+        String street = null;
+        String state = null;
+        String zip = null;
+
         if (url.indexOf("?") >= 0) {
             String p = url.substring(url.indexOf("?") + 1);
             for (String pair : p.split("&")) {
                 String[] keyVal = pair.split("=");
                 if (keyVal.length == 2) {
-                    if(keyVal[0].contains("zip")){
-                        System.out.println(keyVal[0]);
-                        keyVal[1] = keyVal[1].replace(" HTTP/1.1","");
+                    if (keyVal[0].contains("name")) {
+                        name = keyVal[1];
+                    }
+                    if (keyVal[0].contains("street")) {
+                        street = keyVal[1];
+                    }
+                    if (keyVal[0].contains("state")) {
+                        state = keyVal[1];
+                    }
+                    if (keyVal[0].contains("zip")) {
+                        keyVal[1] = keyVal[1].replace(" HTTP/1.1", "");
+                        zip = keyVal[1];
                     }
                     params.put(keyVal[0], keyVal[1]);
                 }
             }
-            System.out.print(params.toString());
-            am.createModel(params);
         }
+
+        am.createModel(name, street, state, zip);
     }
 }

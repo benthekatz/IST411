@@ -26,6 +26,7 @@ public class ServerController {
      */
     public static void main(String[] args) {
         AddressController ac = new AddressController();
+        AddressListModel alm = new AddressListModel();
         
         try (ServerSocket server = new ServerSocket(1234)) {
             System.out.println("Listening for connection on port 1234.");
@@ -59,8 +60,9 @@ public class ServerController {
                             }
                             
                         } else if (line.contains("/list")) {
+                            //TODO: throw null list check
                             //creates a new ListView
-                            clientSocket.getOutputStream().write(new ListView().makeHTML(ac.am.returnModels()).getBytes("UTF-8"));
+                            clientSocket.getOutputStream().write(ac.am.returnList().getBytes("UTF-8"));
                             
                         } else if (line.contains("HTTP/1.1")) {
                             String home = "Default home page";
