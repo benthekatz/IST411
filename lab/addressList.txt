@@ -1,8 +1,1 @@
-name=asdfasdf&street=asdfasd&state=asdfads&zip=12345
-name=asdfasdf&street=asdfasd&state=asdfads&zip=12345
-name=asdfasdf&street=asdfasd&state=asdfads&zip=12345
-name=asdfasdf&street=asdfasd&state=asdfads&zip=12345
-name=asdfasdf&street=asdfasd&state=asdfads&zip=12345
-name=asdfasdf&street=asdfasd&state=asdfads&zip=12345
-name=asdfasdf&street=asdfasd&state=asdfads&zip=12345
-name=asdfasdf&street=asdfasd&state=asdfads&zip=12345
+name=Benjamin Katz&street=205 E Beaver Ave&state=Pennsylvania&zip=16801

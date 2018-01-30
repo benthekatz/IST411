@@ -63,16 +63,12 @@ public class ServerController {
                         } else if (line.contains("/list")) {
                             //TODO: throw null list check
                             if(alm.models == null){
-                                clientSocket.getOutputStream().write(("List is nonexistent").getBytes("UTF-8"));
+                                clientSocket.getOutputStream().write(("Address List is nonexistent").getBytes("UTF-8"));
                             } else if(alm.models.size() == 0){
-                                clientSocket.getOutputStream().write(("List is empty").getBytes("UTF-8"));
+                                clientSocket.getOutputStream().write(("Address List is empty").getBytes("UTF-8"));
                             } else {
                                 clientSocket.getOutputStream().write(alm.returnList().getBytes("UTF-8"));
                             }
-                                //clientSocket.getOutputStream().write(ac.am.returnList(alm).getBytes("UTF-8"));
-                                //creates a new ListView
-                                //clientSocket.getOutputStream().write(ac.am.returnList(alm).getBytes("UTF-8"));
-                                //alm.saveToFile("addressInfo.txt");
                         } else if (line.contains("HTTP/1.1")) {
                             String home = "Default home page";
                             clientSocket.getOutputStream().write(home.getBytes("UTF-8"));

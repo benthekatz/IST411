@@ -30,6 +30,7 @@ public class AddressController {
             for (String pair : p.split("&")) {
                 String[] keyVal = pair.split("=");
                 if (keyVal.length == 2) {
+                    keyVal[1] = keyVal[1].replace("+"," ");
                     if (keyVal[0].contains("name")) {
                         name = keyVal[1];
                     }
