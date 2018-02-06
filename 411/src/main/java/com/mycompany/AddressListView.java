@@ -3,15 +3,20 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package lab;
+package com.mycompany;
+
+import java.util.ArrayList;
+import java.util.Map;
 
 /**
  *
  * @author Ben
  */
-public class SubmitView extends ServerView{
+public class AddressListView extends ServerView {
+    ArrayList<AddressModel>  values = new ArrayList<>();
+    
     @Override
     public String makeHTML() {
-        return "<html><body>Your submission has been recorded!</body></html>";
+        return values.toString();
     }
 }
