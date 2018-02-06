@@ -5,11 +5,12 @@
  */
 package com.mycompany;
 
+import com.fasterxml.jackson.core.JsonParseException;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *
@@ -49,7 +50,7 @@ public class AddressModel {
         this.street = street;
         this.state = state;
         this.zip = zip;
-        
+
         alm.addModel(this);
     }
 
@@ -90,5 +91,24 @@ public class AddressModel {
         }
         return am;
     }
+
+    public JsonNode serializeAsJSON(AddressModel am) {
+        ObjectMapper mapper = new ObjectMapper();
+        
+        JsonNode node = mapper.convertValue(am, JsonNode.class);
+        
+        return node;
+    }
+    
+    static AddressModel deserializeJSON(JsonNode node) {
+        ObjectMapper mapper = new ObjectMapper();
+        AddressModel am = mapper.convertValue(node, AddressModel.class);
+        
+        return am;
+    }
+    
+    
+    
+    
 
 }

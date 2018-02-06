@@ -6,10 +6,16 @@
 package com.mycompany;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.logging.Level;
@@ -26,9 +32,10 @@ public class ServerController {
      */
     public static void main(String[] args) throws IOException {
         AddressController ac = new AddressController();
-        String filename = "addressList.txt";
+        String filename = "address_list.txt";
+        String jsonFilename = "address_data.json";
         AddressListModel alm = AddressListModel.makeAddressListFromFile(filename);
-        
+
         try (ServerSocket server = new ServerSocket(1234)) {
             System.out.println("Listening for connection on port 1234.");
             while (true) {
@@ -41,11 +48,11 @@ public class ServerController {
 
                     if (line.contains("GET")) {
 
-                        if (line.contains("/hello HTTP/1.1")) {
+                        if (line.contains("/hello")) {
                             //creates a new HelloView
                             clientSocket.getOutputStream().write(new HelloView().makeHTML().getBytes("UTF-8"));
 
-                        } else if (line.contains("/address HTTP/1.1")) {
+                        } else if (line.contains("/address")) {
                             //creates a new AddressView
                             clientSocket.getOutputStream().write(new AddressView().makeHTML().getBytes("UTF-8"));
 
@@ -69,9 +76,15 @@ public class ServerController {
                             } else {
                                 clientSocket.getOutputStream().write(alm.returnList().getBytes("UTF-8"));
                             }
-                        } else if (line.contains("HTTP/1.1")) {
-                            String home = "Default home page";
-                            clientSocket.getOutputStream().write(home.getBytes("UTF-8"));
+                            
+                        } else if (line.contains("/data")){
+                            clientSocket.getOutputStream().write((new AddressListDataView().readFile(jsonFilename).getBytes("UTF-8")));
+                            
+                        } else {
+                            String URL = line;
+                            URL = URL.replace(" HTTP/1.1", "");
+                            URL = URL.replace("GET /", "");
+                            clientSocket.getOutputStream().write(View.serveView(URL, clientSocket).getBytes("UTF-8"));
                         }
 
                     } else {

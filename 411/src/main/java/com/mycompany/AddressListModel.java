@@ -5,6 +5,9 @@
  */
 package com.mycompany;
 
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -29,7 +32,7 @@ public class AddressListModel {
 
     public void addModel(AddressModel toAdd) throws IOException {
         models.add(toAdd);
-        saveToFile("addressList.txt");
+        saveToFile("address_list.txt");
     }
 
     public ArrayList getModels() {
@@ -73,5 +76,40 @@ public class AddressListModel {
             list = list + values.get(i).toString();
         }
         return list;
+    }
+
+    public JsonNode serializeAsJSON(AddressListModel alm) {
+        ObjectMapper mapper = new ObjectMapper();
+
+        JsonNode node = mapper.convertValue(alm, JsonNode.class);
+
+        return node;
+    }
+
+    static AddressListModel deserializeJSON(JsonNode node) {
+        ObjectMapper mapper = new ObjectMapper();
+        
+        AddressListModel alm = mapper.convertValue(node, AddressListModel.class);
+
+        return alm;
+    }
+    
+    public void saveJSONToFile(JsonNode node, File file) throws IOException{
+        ObjectMapper mapper = new ObjectMapper();
+        
+        mapper.writeValue(file, node);
+    }
+    
+    public AddressListModel readJSONFromFile(File file) throws IOException{
+        AddressListModel alm = null;
+        ObjectMapper mapper = new ObjectMapper();
+        
+        if (file.exists()){
+            alm = mapper.readValue(file, AddressListModel.class);
+        } else {
+            System.out.println("File not found.");
+        }
+        
+        return alm;
     }
 }

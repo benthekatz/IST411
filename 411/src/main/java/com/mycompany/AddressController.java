@@ -5,6 +5,8 @@
  */
 package com.mycompany;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -51,6 +53,7 @@ public class AddressController {
 
         AddressModel am = new AddressModel();
         am.createModel(name, street, state, zip, alm);
-        
+        JsonNode modelNode = am.serializeAsJSON(am);
+        alm.saveJSONToFile(modelNode, new File("address_data.json"));
     }
 }
