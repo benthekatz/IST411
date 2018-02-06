@@ -48,11 +48,11 @@ public class ServerController {
 
                     if (line.contains("GET")) {
 
-                        if (line.contains("/hello")) {
+                        if (line.contains("GET /hello HTTP/1.1")) {
                             //creates a new HelloView
                             clientSocket.getOutputStream().write(new HelloView().makeHTML().getBytes("UTF-8"));
 
-                        } else if (line.contains("/address")) {
+                        } else if (line.contains("GET /address HTTP/1.1")) {
                             //creates a new AddressView
                             clientSocket.getOutputStream().write(new AddressView().makeHTML().getBytes("UTF-8"));
 

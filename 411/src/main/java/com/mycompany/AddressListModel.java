@@ -5,6 +5,7 @@
  */
 package com.mycompany;
 
+import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -96,7 +97,18 @@ public class AddressListModel {
     
     public void saveJSONToFile(JsonNode node, File file) throws IOException{
         ObjectMapper mapper = new ObjectMapper();
-        
+        boolean existFile = file.exists();
+        String contents = "";
+        if(existFile){
+            FileReader fr = new FileReader(file);
+            BufferedReader br = new BufferedReader(fr);
+            String line;
+            while ((line = br.readLine()) != null) {
+                contents = contents + line;
+            }
+            JsonNode appendNode = mapper.convertValue(contents, JsonNode.class);
+            mapper.writeValue(file, appendNode);
+        }
         mapper.writeValue(file, node);
     }
     
