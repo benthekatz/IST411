@@ -6,15 +6,19 @@
 package com.mycompany;
 
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -89,39 +93,30 @@ public class AddressListModel {
 
     static AddressListModel deserializeJSON(JsonNode node) {
         ObjectMapper mapper = new ObjectMapper();
-        
+
         AddressListModel alm = mapper.convertValue(node, AddressListModel.class);
 
         return alm;
     }
-    
-    public void saveJSONToFile(JsonNode node, File file) throws IOException{
-        ObjectMapper mapper = new ObjectMapper();
-        boolean existFile = file.exists();
-        String contents = "";
-        if(existFile){
-            FileReader fr = new FileReader(file);
-            BufferedReader br = new BufferedReader(fr);
-            String line;
-            while ((line = br.readLine()) != null) {
-                contents = contents + line;
-            }
-            JsonNode appendNode = mapper.convertValue(contents, JsonNode.class);
-            mapper.writeValue(file, appendNode);
-        }
-        mapper.writeValue(file, node);
+
+    public void saveJSONToFile(JsonNode node, File file) throws IOException {
+        FileWriter fw = new FileWriter(file,true);
+        BufferedWriter bw = new BufferedWriter(fw);
+        PrintWriter pw = new PrintWriter(bw);
+        pw.println(node);
+        pw.close();
     }
-    
-    public AddressListModel readJSONFromFile(File file) throws IOException{
+
+    public AddressListModel readJSONFromFile(File file) throws IOException {
         AddressListModel alm = null;
         ObjectMapper mapper = new ObjectMapper();
-        
-        if (file.exists()){
+
+        if (file.exists()) {
             alm = mapper.readValue(file, AddressListModel.class);
         } else {
             System.out.println("File not found.");
         }
-        
+
         return alm;
     }
 }
