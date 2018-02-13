@@ -46,16 +46,22 @@ public class ServerController {
                     String line = reader.readLine();
                     System.out.println(line);
 
-                    if (line.contains("GET")) {
+                    //http://localhost:1234/
+                    if (line.equals("GET / HTTP/1.1")) {
+                        clientSocket.getOutputStream().write(FileView.serveView("index.html", clientSocket).getBytes("UTF-8"));
 
+                    //Other Views    
+                    } else if (line.contains("GET")) {
                         if (line.contains("GET /hello HTTP/1.1")) {
                             //creates a new HelloView
                             clientSocket.getOutputStream().write(new HelloView().makeHTML().getBytes("UTF-8"));
 
+                            //Address entry form
                         } else if (line.contains("GET /address HTTP/1.1")) {
                             //creates a new AddressView
                             clientSocket.getOutputStream().write(new AddressView().makeHTML().getBytes("UTF-8"));
 
+                            //Processes Address Submission - decides view based on fields
                         } else if (line.contains("/submit")) {
                             //creates a new SubmitView
                             if (AddressModel.isValid(line)) {
@@ -67,29 +73,33 @@ public class ServerController {
                                 clientSocket.getOutputStream().write(new AddressView().makeHTMLInvalid().getBytes("UTF-8"));
                             }
 
-                        } else if (line.contains("/list")) {
+                            //List of addresses
+                        } else if (line.contains("GET /list HTTP/1.1")) {
                             //TODO: throw null list check
-                            if(alm.models == null){
+                            if (alm.models == null) {
                                 clientSocket.getOutputStream().write(("Address List is nonexistent").getBytes("UTF-8"));
-                            } else if(alm.models.size() == 0){
+                            } else if (alm.models.size() == 0) {
                                 clientSocket.getOutputStream().write(("Address List is empty").getBytes("UTF-8"));
                             } else {
                                 clientSocket.getOutputStream().write(alm.returnList().getBytes("UTF-8"));
                             }
-                            
-                        } else if (line.contains("/data")){
+
+                            //JSON proof of concept  
+                        } else if (line.contains("GET /data HTTP/1.1")) {
                             clientSocket.getOutputStream().write((new AddressListDataView().readFile(jsonFilename).getBytes("UTF-8")));
-                            
+
+                            //File name in URL searches [/public/*] and displays in browser
                         } else {
                             String URL = line;
                             URL = URL.replace(" HTTP/1.1", "");
                             URL = URL.replace("GET /", "");
-                            clientSocket.getOutputStream().write(FileView.serveView(URL, clientSocket).getBytes("UTF-8"));
+                            System.out.println(URL);
+                            //clientSocket.getOutputStream().write(FileView.serveView(URL, clientSocket).getBytes("UTF-8"));
                         }
 
+                    //404 Error Page
                     } else {
-                        String error = "404";
-                        clientSocket.getOutputStream().write(error.getBytes("UTF-8"));
+                        clientSocket.getOutputStream().write(("404 Not Found\n").getBytes("UTF-8"));
                     }
 
                     line = reader.readLine();
