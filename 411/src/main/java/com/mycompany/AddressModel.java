@@ -92,7 +92,7 @@ public class AddressModel {
         return am;
     }
 
-    public static synchronized JsonNode serializeAsJSON(AddressModel am) {
+    public synchronized JsonNode serializeAsJSON(AddressModel am) {
         ObjectMapper mapper = new ObjectMapper();
         
         JsonNode node = mapper.convertValue(am, JsonNode.class);
