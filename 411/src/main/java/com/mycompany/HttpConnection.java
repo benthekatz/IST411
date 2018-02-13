@@ -87,6 +87,8 @@ public class HttpConnection implements Runnable {
                             System.out.println(URL);
                             out.write(FileView.serveView(URL, clientSocket).getBytes("UTF-8"));
                         }
+                        
+                        line = reader.readLine();
 
                         //404 Error Page
                     } else {

@@ -45,7 +45,7 @@ public class AddressModel {
         return status;
     }
 
-    public void createModel(String name, String street, String state, String zip, AddressListModel alm) throws IOException {
+    public synchronized void createModel(String name, String street, String state, String zip, AddressListModel alm) throws IOException {
         this.name = name;
         this.street = street;
         this.state = state;
@@ -92,7 +92,7 @@ public class AddressModel {
         return am;
     }
 
-    public JsonNode serializeAsJSON(AddressModel am) {
+    public static synchronized JsonNode serializeAsJSON(AddressModel am) {
         ObjectMapper mapper = new ObjectMapper();
         
         JsonNode node = mapper.convertValue(am, JsonNode.class);

@@ -48,7 +48,7 @@ public class AddressListModel {
         return models;
     }
 
-    public void saveToFile(String filename) throws IOException {
+    public synchronized void saveToFile(String filename) throws IOException {
         FileWriter fw = new FileWriter(filename);
         for (int i = 0; i < this.returnModels().size(); i++) {
             fw.write(this.returnModels().get(i).serializeToString() + "\n");
@@ -99,7 +99,7 @@ public class AddressListModel {
         return alm;
     }
 
-    public void saveJSONToFile(JsonNode node, File file) throws IOException {
+    public static synchronized void saveJSONToFile(JsonNode node, File file) throws IOException {
         FileWriter fw = new FileWriter(file,true);
         BufferedWriter bw = new BufferedWriter(fw);
         PrintWriter pw = new PrintWriter(bw);

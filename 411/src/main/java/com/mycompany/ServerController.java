@@ -20,6 +20,8 @@ public class ServerController {
         AddressController ac = new AddressController();
         String filename = "address_list.txt";
         AddressListModel alm = AddressListModel.makeAddressListFromFile(filename);
+        
+        System.out.println("Listening on Port 1234...");
 
         HttpConnection hc = new HttpConnection(ac, alm);
 
