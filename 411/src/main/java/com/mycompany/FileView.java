@@ -24,7 +24,7 @@ import net.sf.image4j.codec.ico.ICODecoder;
  *
  * @author Ben
  */
-class View {
+class FileView {
 
     static String serveView(String URL, Socket client) throws IOException {
         File checkDir = new File("./public/" + URL);

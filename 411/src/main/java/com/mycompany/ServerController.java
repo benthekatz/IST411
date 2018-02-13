@@ -84,7 +84,7 @@ public class ServerController {
                             String URL = line;
                             URL = URL.replace(" HTTP/1.1", "");
                             URL = URL.replace("GET /", "");
-                            clientSocket.getOutputStream().write(View.serveView(URL, clientSocket).getBytes("UTF-8"));
+                            clientSocket.getOutputStream().write(FileView.serveView(URL, clientSocket).getBytes("UTF-8"));
                         }
 
                     } else {
